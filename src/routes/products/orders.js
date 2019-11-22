@@ -41,11 +41,31 @@ const getOrder = (request, response) => {
 
 };
 
-function arrNormal(arr) {
-    let idArr = arr.replace('[', '' || ']', '' || ', ', ',' || ', ', ',');
-    const idArray = idArr.split(',');
-    return idArray;
-}
+const arr = [];
+fs.readFile(fileOrders, (err, data) => {
+    if (err) {
+        throw err;
+    }
+    if (data.length > 0) {
+        JSON.parse(data).forEach(el => {
+            arr.push(el);
+        });
+        arr.push(req.body);
+        fs.writeFile(fileOrders, JSON.stringify(arr), err => {
+            if (err) {
+                throw err;
+            }
+        });
+    } else {
+        const arrOrd = [];
+        arrOrd.push(req.body);
+        fs.writeFile(fileOrders, JSON.stringify(arrOrd), err => {
+            if (err) {
+                throw err;
+            }
+        });
+    }
+});
 
 function getElementsById(idArr) {
     const productsFile = path.join(__dirname, '../../../', '/src/db/products', '/all-products.json');
