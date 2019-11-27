@@ -191,5 +191,5 @@ module.exports = productRequest;
 module.exports = getProduct;
 module.exports = getProducts;
 
-
+}
 
