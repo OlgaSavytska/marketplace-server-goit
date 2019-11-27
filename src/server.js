@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const router = require('./routes/main/router');
 const conect = require('./routes/connect-db');
 
-const errorHandler = (req, res, next)  => {
+const errorHandler = (req, res, next) => {
     res.status(500).send('No such page');
     next();
 };
