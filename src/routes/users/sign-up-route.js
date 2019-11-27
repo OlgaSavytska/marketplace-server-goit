@@ -8,6 +8,7 @@ const signUpRoute = (request, response) => {
 
             let receivedData = JSON.parse(data);
             let username = receivedData.name;
+
             let date = new Date();
             receivedData.id = date.getTime();
             console.log(receivedData);
@@ -15,14 +16,17 @@ const signUpRoute = (request, response) => {
             fs.appendFile(
                 "src/db/users/all-users.json",
                 "," + JSON.stringify(receivedData),
+
                 err => {
                     if (err) throw err;
                 }
             );
             response.writeHead(200, { "Content-Type": "application/json" });
+
             response.write(JSON.stringify({ status: "success", user: receivedData }));
             response.end();
         });
+
     } else {
         response.writeHead(400, { "Content-Type": "text/html" });
         response.write(
@@ -31,6 +35,7 @@ const signUpRoute = (request, response) => {
         response.end();
     }
 };
+
 
 const getUsers = (request, response) => {
     const usersFile = path.join(__dirname, '../../../', '/src/db/users', '/all-users.json');
@@ -50,3 +55,4 @@ const getUsers = (request, response) => {
 
 module.exports = signUpRoute;
 module.exports = getUsers;
+

@@ -21,13 +21,15 @@ const productRequest = (request, response) => {
         case "/products/?category":
             getCategory(request, response);
             break;
+
         default:
             console.log("Nothing");
-    }
+
 
 
 
 };
+
 
 const getProducts = (request, response) => {
     if (request.query.ids !== undefined || request.params.id !== undefined) {
@@ -66,6 +68,8 @@ function getAllProducts() {
     return allProductsJS;
 }
 
+
+
 const getIdProduct = url => {
     const lastIndex = url.lastIndexOf('=');
 
@@ -76,6 +80,7 @@ const getIdProduct = url => {
 };
 
 const getProduct = (request, response) => {
+
     const productsFile = path.join(__dirname, '../../../', '/src/db/products', '/all-products.json');
     const products = fs.readFileSync(productsFile);
 
@@ -85,8 +90,30 @@ const getProduct = (request, response) => {
     };
 
     response.writeHead(200, { "Contend-type": "application/json" });
-    response.write(JSON.stringify(responseObj));
-    response.end();
+    const parsedUrl = url.parse(request.url);
+    const id = getIdProduct(parsedUrl.path);
+    const idArray = id.split(',');
+    const productsFile = path.join(__dirname, '../../../', '/src/db/products', '/all-products.json');
+    const products = fs.readFileSync(productsFile);
+
+    const allProductsJSBooll = products => {
+        try {
+            allProductsJS = JSON.parse(response);
+            return allProductsJS;
+        } catch (err) {
+            console.error('Error: ', err);
+        }
+    }
+
+
+    const responseObj = {
+        "status": "success",
+        "products": getElementId(id)
+    };
+
+    response.writeHead(200, { "Contend-type": "application/json" });
+    //response.write(JSON.stringify({ getIdProduct: id}));
+
 
 
 };
@@ -163,7 +190,6 @@ const getCategory = (request, response) => {
 module.exports = productRequest;
 module.exports = getProduct;
 module.exports = getProducts;
-
 
 
 

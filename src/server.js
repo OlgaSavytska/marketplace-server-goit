@@ -1,3 +1,4 @@
+
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -24,6 +25,7 @@ const startServer = port => {
     app.listen(port);
 
     console.log('Server was started at http://localhost:' + port);
+
 };
 
 module.exports = startServer;
