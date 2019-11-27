@@ -1,6 +1,6 @@
 const userParent = require("../../modules/db/schemes/userScheme");
 
-const saveUser = function(err, user) {
+const saveUser = function (err, user) {
     if (err) throw err;
 
     user.save();

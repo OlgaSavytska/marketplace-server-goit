@@ -17,9 +17,16 @@ const getProductById = (req, res) => {
         res.json({ status: "success", product });
     };
 
-    productParent.findById(productId)
-        .then(sendResponse)
-        .catch(sendError);
+    productParent.findById(productId) = async (req, res) => {
+        try {
+            const deleteOne = await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
 };
 
 module.exports = getProductById;

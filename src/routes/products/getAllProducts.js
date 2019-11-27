@@ -15,9 +15,17 @@ const getAllProduct = (req, res) => {
         res.json({ status: "success", products });
     };
 
-    productParent.find()
-        .then(sendResponse)
-        .catch(sendError);
+    productParent.find = async (req, res) => {
+        try {
+            const deleteOne = await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
 };
+
 
 module.exports = getAllProduct;

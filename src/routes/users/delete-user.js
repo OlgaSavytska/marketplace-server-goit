@@ -16,10 +16,17 @@ const deleteUser = (req, res) => {
         res.json({ status: "success" });
     };
 
-    userParent.findById(userId)
-        .deleteOne()
-        .then(sendResponse)
-        .catch(sendError);
+    userParent.findById(userId) = async (req, res) => {
+        try {
+            const deleteOne = await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
 };
+
 
 module.exports = deleteUser;

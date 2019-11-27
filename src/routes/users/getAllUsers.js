@@ -15,9 +15,17 @@ const getAllUsers = (req, res) => {
         res.json({ status: "success", users });
     };
 
-    userParent.find()
-        .then(sendResponse)
-        .catch(sendError);
+    userParent.find = async (req, res) => {
+        try {
+            const sendResponse= await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
 };
+
 
 module.exports = getAllUsers;

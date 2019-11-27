@@ -12,27 +12,24 @@ const createOrder = req => {
 
 const saveOrder = async (req, res) => {
     try {
-        const newOrder = await createOrder(req);
+        const newOrder = await createOrder(res);
         res.status(200);
     } catch (err) {
         res.status(400);
     }
 
     const saveOrderFromUser = async order => {
-        const userId = order.creator;
-
-        return userParent.findById(userId)
-            .then(user => {
-                if (!user) return Promise.reject();
-
-                const orderId = order._id;
-                user.orders = [...user.orders, orderId];
-
-                user.save().then(order);
-
-                return Promise.resolve(order);
-            })
-            .catch(notFoundUser);
+        const userId = await order.creator;
+        try {
+            const orderId = await order._id;
+            user.orders = [...user.orders, orderId];
+            user.save().then(order);
+            return Promise.resolve(order);
+            res.status(200);
+        }
+        catch (notFoundUser) {
+            res.status(400);
+        };
     };
 
     const notFoundUser = () => {
@@ -55,15 +52,16 @@ const saveOrder = async (req, res) => {
         res.json({ status: "success", order });
     };
 
-    saveOrderFromUser(newOrder).then(
-        data => {
-            if (!data) return;
-            data
-                .save()
-                .then(sendResponse)
-                .catch(sendError);
+    saveOrderFromUser(newOrder) = async (req, res) => {
+        try {
+            const sendResponse = await sendResponse(res);
+            res.status(200);
         }
-    );
-};
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
+}
 
 module.exports = saveOrder;

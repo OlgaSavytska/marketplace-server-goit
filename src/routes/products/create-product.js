@@ -26,11 +26,18 @@ const saveProduct = (req, res) => {
         res.json({ status: "success", product });
     };
 
-    newProduct
-        .save()
-        .then(sendResponse)
-        .catch(sendError);
-};
+
+    newProduct = async (req, res) => {
+        try {
+            const sendResponse = await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
+}
 
 module.exports = saveProduct;
 

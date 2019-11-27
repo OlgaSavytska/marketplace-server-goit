@@ -17,9 +17,17 @@ const getUser = (req, res) => {
         res.json({ status: "success", user });
     };
 
-    userParent.findById(userId)
-        .then(sendResponse)
-        .catch(sendError);
+    userParent.findById(userId) = async (req, res) => {
+        try {
+            const sendResponse = await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
 };
+
 
 module.exports = getUser;

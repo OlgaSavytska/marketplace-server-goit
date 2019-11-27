@@ -32,10 +32,17 @@ const saveUser = (req, res) => {
         res.json({ status: "success", user });
     };
 
-    newUser
-        .save()
-        .then(sendResponse)
-        .catch(sendError);
+    newUser = async (req, res) => {
+        try {
+            const sendResponse = await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
 };
+
 
 module.exports = saveUser;
