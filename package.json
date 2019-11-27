@@ -1,6 +1,8 @@
 {
-  "name": "demo",
-  "version": "1.7.1",
+
+  "name": "food-delivery-server-goit",
+  "version": "1.0.0",
+
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.19.4"
+
   }
 }

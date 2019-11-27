@@ -1,26 +1,31 @@
-const http = require('http');
-const url = require('url');
-const fs = require('fs');
+
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const app = require('./modules/app');
 const morgan = require('morgan');
 const router = require('./routes/router');
 
-const logger = morgan('combined');
+const errorHandler = (req, res, next)  => {
+    res.status(500).send('No such page');
+    next();
+};
 
+const staticPath = path.join(__dirname, '..', 'assets');
 
 const startServer = port => {
+    app
+        .use(bodyParser.urlencoded({ extended: false }))
+        .use(bodyParser.json())
+        .use(morgan('dev'))
+        .use(express.static(staticPath))
+        .use('/', router)
+        .use(errorHandler);
 
-  const server = http.createServer((request, response) => {
-      //let pathName;
-    // Get route from the request
-    const parsedUrl = url.parse(request.url);
+    app.listen(port);
 
-      console.log(parsedUrl);
-    const func = router[parsedUrl.pathname] || router.default;
+    console.log('Server was started at http://localhost:' + port);
 
-    logger(request, response, () => func(request, response));
-  });
-
-  server.listen(port);
 };
 
 module.exports = startServer;
