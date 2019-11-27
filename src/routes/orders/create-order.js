@@ -10,8 +10,13 @@ const createOrder = req => {
     });
 };
 
-const saveOrder = (req, res) => {
-    const newOrder = createOrder(req);
+const saveOrder = async (req, res) => {
+    try {
+        const newOrder = await createOrder(req);
+        res.status(200);
+    } catch (err) {
+        res.status(400);
+    }
 
     const saveOrderFromUser = async order => {
         const userId = order.creator;

@@ -16,10 +16,16 @@ const deleteProduct = (req, res) => {
         res.json({ status: "success" });
     };
 
-    productParent.findById(productId)
-        .deleteOne()
-        .then(sendResponse)
-        .catch(sendError);
+    productParent.findById(productId) = async (req, res) => {
+        try {
+            const deleteOne = await sendResponse(res);
+            res.status(200);
+        }
+        catch (err) {
+            const error = await sendError(res);
+            res.status(400);
+        }
+    }
 };
 
 module.exports = deleteProduct;
